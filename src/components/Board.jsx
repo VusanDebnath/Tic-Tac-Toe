@@ -19,12 +19,29 @@ function Square({ value, onSquareClick }) {
 export default function Board() {
     //lifting the state up => aikhane board component holo square component er parent component to amra proti ta square component k single bhabe state change na kore tader parent component e state use kore sob gulo square er value niye kaj kora jabe
 
-    const [squares, setSquares] = useState(Array(9).fill(null));
+    const [squares, setSquares] = useState(Array(9).fill(null)); 
+
+    const[xIsNext, setXIsNext] = useState(true); // xIsNext state to check whose turn is it
+  
 
     function handleClick(i) {
-        const newSquares = squares.slice();
-        newSquares[i] = 'X';
-        setSquares(newSquares);
+      const newSquares = squares.slice(); // বা [...squares] // কপি করা হলো
+      // newSquares[i] = "X"; // নতুন অ্যারেতে মান বসানো হলো?
+
+      if (newSquares[i]) {
+        return;
+      }
+      // যদি square এ আগে থেকেই কিছু লেখা থাকে, তাহলে আর কিছু করা হবে না
+
+      if (xIsNext) {
+        newSquares[i] = "X"; // X এর পালা
+      } else {
+        newSquares[i] = "O"; // O এর পালা
+      }
+      setXIsNext(!xIsNext); // পালা পরিবর্তন করা হলো
+      // newSquares[i] = xIsNext ? "X" : "O"; // X এর পালা হলে X বসবে, নাহলে O বসবে
+
+      setSquares(newSquares); // নতুন অ্যারে সেট করা হলো
     };
     return (
       <>
